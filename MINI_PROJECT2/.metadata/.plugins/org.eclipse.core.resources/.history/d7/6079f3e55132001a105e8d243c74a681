@@ -1,0 +1,45 @@
+/*
+ * potentiometer.c
+ *
+ *  Created on: Jun 18, 2017
+ *  Author: Mohamed Tarek
+ */
+
+#include "ADC.h"
+#include "LCD.h"
+#include "TIMER.h"
+#include "ExternalInterrupt.h"
+uint16 g_Value=0;
+void APP_ADCProcess(void)
+{
+	g_Value=ADC_GetADCValue();
+}
+int main(void)
+{
+	ADC_ConfigType ADC_Config={F_CPU_8,AREF,POLLING};
+	ADC_VidInit(&ADC_Config);
+	ADC_setCallBack(APP_ADCProcess);
+	DDRB|=(1<<PB0)|(1<<PB1);
+	SET_BIT(PORTB,PB0);
+	CLEAR_BIT(PORTB,PB1);
+	LCD_VidInit();
+	ExternalInterrupt_VidInit();
+	PWM_VidInit();
+	LCD_clearScreen();
+	LCD_VidWriteString("ADC Value = ");
+	while(1)
+	{
+		LCD_VidSetRowColumn(1,12);
+		ADC_u16ReadChannal(0);
+		if(ADC_Config.PollingOrInterrupt==0)
+		{
+			while(!(ADCSRA&(1<<ADIF)));
+			SET_BIT(ADCSRA,ADIF);
+			g_Value=ADC_GetADCValue();
+		}
+		LCD_VidWriteNumber(g_Value);
+		PWM_VidTakeNumber(g_Value);
+	}
+}
+
+

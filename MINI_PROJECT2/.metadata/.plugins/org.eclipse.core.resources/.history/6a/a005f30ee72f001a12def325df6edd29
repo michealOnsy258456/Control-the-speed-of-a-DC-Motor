@@ -1,0 +1,29 @@
+/*
+ * potentiometer.c
+ *
+ *  Created on: Jun 18, 2017
+ *  Author: Mohamed Tarek
+ */
+
+#include "ADC.h"
+#include "LCD.h"
+#include "TIMER.h"
+int main(void)
+{
+	uint16 res_value;
+	LCD_VidInit(); /* initialize LCD driver */
+	ADC_VidInit(); /* initialize ADC driver */
+	LCD_clearScreen(); /* clear LCD at the beginning */
+	/* display this string "ADC Value = " only once at LCD */
+	LCD_VidWriteString("ADC Value = ");
+    while(1)
+    {
+    	LCD_VidSetRowColumn(1,12); /* display the number every time at this position */
+		res_value = ADC_u16ReadChannal(0); /* read channel zero where the potentiometer is connect */
+		LCD_VidWriteNumber(res_value); /* display the ADC value on LCD screen */
+		PWM_VidInit(res_value);
+
+    }
+}
+
+

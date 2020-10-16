@@ -1,0 +1,30 @@
+/*
+ * ExternalInterrupt.h
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#ifndef EXTERNALINTERRUPT_H_
+#define EXTERNALINTERRUPT_H_
+
+#include "std_types.h"
+#include "micro_config.h"
+#include "common_macros.h"
+typedef struct
+{
+	ADC_Clock clock;
+	ADC_ChooseVoltage volt;
+	ADC_POLLORINTER PollingOrInterrupt;
+
+}ExternalInterrupt_ConfigType;
+
+typedef enum
+{
+	LOWLEVEL,LOGICAL,FALLING,RISING
+}ExternalInterrupt_EdgeType;
+
+
+void ExternalInterrupt_VidInit();
+
+#endif /* EXTERNALINTERRUPT_H_ */

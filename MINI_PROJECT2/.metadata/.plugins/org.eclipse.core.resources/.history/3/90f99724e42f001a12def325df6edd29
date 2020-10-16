@@ -1,0 +1,14 @@
+/*
+ * Timer.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#include "timer.h"
+void PWM_VidInit()
+{
+	TCCR0=(1<<WGM00)|(1<<WGM01)|(1<<COM01)|(1<<CS01);
+
+
+}

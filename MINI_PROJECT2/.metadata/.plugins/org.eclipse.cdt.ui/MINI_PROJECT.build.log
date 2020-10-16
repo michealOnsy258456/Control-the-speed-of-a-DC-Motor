@@ -1,0 +1,38 @@
+21:09:40 **** Incremental Build of configuration Debug for project MINI_PROJECT ****
+make all 
+Building file: ../ExternalInterrupt.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"ExternalInterrupt.d" -MT"ExternalInterrupt.o" -c -o "ExternalInterrupt.o" "../ExternalInterrupt.c"
+In file included from ../micro_config.h:22,
+                 from ../ExternalInterrupt.h:12,
+                 from ../ExternalInterrupt.c:8:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../ExternalInterrupt.c
+ 
+Building target: MINI_PROJECT.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,MINI_PROJECT.map -mmcu=atmega16 -o "MINI_PROJECT.elf"  ./ADC.o ./ExternalInterrupt.o ./LCD.o ./Program.o ./TIMER.o   
+Finished building target: MINI_PROJECT.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S MINI_PROJECT.elf  >"MINI_PROJECT.lss"
+Finished building: MINI_PROJECT.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 MINI_PROJECT.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   16326 bytes (99.6% Full)
+(.text + .data + .bootloader)
+
+Data:        287 bytes (28.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+21:09:41 Build Finished. 0 errors, 1 warnings. (took 1s.171ms)
+

@@ -1,0 +1,49 @@
+19:01:06 **** Incremental Build of configuration Debug for project PROJECT ****
+make all 
+Building file: ../LCD.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"LCD.d" -MT"LCD.o" -c -o "LCD.o" "../LCD.c"
+In file included from ../Micro_Config.h:22,
+                 from ../LCD.h:11,
+                 from ../LCD.c:7:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../LCD.c
+ 
+Building file: ../Program.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"Program.d" -MT"Program.o" -c -o "Program.o" "../Program.c"
+In file included from ../micro_config.h:22,
+                 from ../ADC.h:12,
+                 from ../Program.c:8:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../Program.c: In function 'main':
+../Program.c:21: warning: implicit declaration of function 'LCD_VidSetRowColumn'
+Finished building: ../Program.c
+ 
+Building target: PROJECT.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,PROJECT.map -mmcu=atmega16 -o "PROJECT.elf"  ./ADC.o ./LCD.o ./Program.o   
+Finished building target: PROJECT.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S PROJECT.elf  >"PROJECT.lss"
+Finished building: PROJECT.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 PROJECT.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   14990 bytes (91.5% Full)
+(.text + .data + .bootloader)
+
+Data:        278 bytes (27.1% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+19:01:07 Build Finished. 0 errors, 3 warnings. (took 1s.87ms)
+

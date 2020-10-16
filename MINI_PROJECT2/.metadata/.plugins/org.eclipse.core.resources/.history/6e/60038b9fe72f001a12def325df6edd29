@@ -1,0 +1,26 @@
+/*
+ * ExternalInterrupt.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#include "ExternalInterrupt.h"
+uint8 flag =0;
+
+ISR(INT1_vect)
+{
+	if(flag==0)
+	{
+		SET_BIT(PORTB,PB1);
+		CLEAR_BIT(PORTA,PB0);
+		flag=1;
+	}
+}
+
+void ExternalInterrupt_VidInit()
+{
+	MCUCR=(1<<ISC11)|(ISC10);
+	GICR =(1<<INT1);
+
+}

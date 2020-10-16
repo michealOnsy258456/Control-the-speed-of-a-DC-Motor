@@ -1,0 +1,20 @@
+/*
+ * ExternalInterrupt.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#include "ExternalInterrupt.h"
+ISR(INT1_vect)
+{
+
+1
+}
+
+void ExternalInterrupt_VidInit()
+{
+	MCUCR=(1<<ISC11)|(ISC10);
+	GICR =(1<<INT1);
+
+}

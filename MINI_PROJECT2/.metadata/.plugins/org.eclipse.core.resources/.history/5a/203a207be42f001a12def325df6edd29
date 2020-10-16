@@ -1,0 +1,16 @@
+/*
+ * Timer.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#include "timer.h"
+void PWM_VidInit(uint32 a_u32Number)
+{
+	TCCR0=(1<<WGM00)|(1<<WGM01)|(1<<COM01)|(1<<CS01);
+	TCNT0=0;
+	OCR0=a_u32Number;
+	DDRB|=(1<<PB3);
+
+}

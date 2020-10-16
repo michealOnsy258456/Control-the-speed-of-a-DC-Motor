@@ -1,0 +1,41 @@
+/*
+ * ExternalInterrupt.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#include "ExternalInterrupt.h"
+uint8 flag =0;
+
+ISR(INT1_vect)
+{
+	if(flag==0)
+	{
+		SET_BIT(PORTB,PB1);
+		CLEAR_BIT(PORTB,PB0);
+		flag=1;
+	}
+	else if(flag==1)
+	{
+		SET_BIT(PORTB,PB0);
+		CLEAR_BIT(PORTB,PB1);
+		flag=0;
+	}
+}
+
+void ExternalInterrupt_VidInit(const ExternalInterrupt_ConfigType * ptr)
+{
+	if(ptr->interrupt==0)
+	{
+		switch(ptr->Edge)
+		{
+		case 0:
+			MCUCR &= ~(1<<ISC11)&(~(1<<ISC10));
+		break;
+		case 1:
+			MCUCR |= (1<<ISC10);
+		break;
+		}
+	}
+}

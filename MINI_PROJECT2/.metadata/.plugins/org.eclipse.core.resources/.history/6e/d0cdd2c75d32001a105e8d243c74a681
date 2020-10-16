@@ -1,0 +1,55 @@
+/*
+ * ADC.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: Micheal Onsy
+ */
+#include "ADC.h"
+
+/*******************************************************************************
+ *                           Global Variables                                  *
+ *******************************************************************************/
+
+static volatile void (*g_callBackPtr)(void) = NULL_PTR;
+
+/*******************************************************************************
+ *                       Interrupt Service Routines                            *
+ *******************************************************************************/
+
+ISR(ADC_vect)
+{
+	if(g_callBackPtr != NULL_PTR)
+	{
+		(*g_callBackPtr)();
+	}
+}
+/*******************************************************************************
+ *                      Functions Definitions                                  *
+ *******************************************************************************/
+
+void ADC_VidInit(const ADC_ConfigType * Cofig_Ptr )
+{
+
+	ADMUX =(ADMUX & 0xC0) | ((Cofig_Ptr->volt)<<6);
+	ADCSRA = (ADCSRA & 0x07) | (Cofig_Ptr->clock);
+	if(Cofig_Ptr-> PollingOrInterrupt==1)
+		ADCSRA |= (1<<ADIE);
+	else
+		ADCSRA &= ~(1<<ADIE);
+
+	ADCSRA |= (1<<ADEN);
+}
+
+void ADC_setCallBack(void(*a_ptr)(void))
+{
+	g_callBackPtr = a_ptr;
+}
+uint16 ADC_GetADCValue(void)
+{
+	return ADC;
+}
+void  ADC_u16ReadChannal(uint8 a_channalNum)
+{
+	ADMUX=(ADMUX & 0xE0)|(a_channalNum & 0x07);
+	SET_BIT(ADCSRA,ADSC);
+}

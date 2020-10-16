@@ -1,0 +1,84 @@
+/*
+ * ExternalInterrupt.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+#include "ExternalInterrupt.h"
+uint8 flag =0;
+
+ISR(INT1_vect)
+{
+	if(flag==0)
+	{
+		SET_BIT(PORTB,PB1);
+		CLEAR_BIT(PORTB,PB0);
+		flag=1;
+	}
+	else if(flag==1)
+	{
+		SET_BIT(PORTB,PB0);
+		CLEAR_BIT(PORTB,PB1);
+		flag=0;
+	}
+}
+
+void ExternalInterrupt_VidInit(const ExternalInterrupt_ConfigType * ptr)
+{
+	if(ptr->interrupt==0)
+		{
+			switch(ptr->Edge)
+			{
+			case 0:
+				MCUCR &= ~(1<<ISC01)&(~(1<<ISC00));
+				break;
+			case 1:
+				MCUCR |= (1<<ISC00);
+				MCUCR &= ~(1<<ISC01);
+				break;
+			case 2:
+				MCUCR |= (1<<ISC01);
+				MCUCR &= ~(1<<ISC00);
+				break;
+			case 3:
+				MCUCR |= (1<<ISC01)|(1<<ISC00);
+				break;
+			}
+			GICR|=(1<<INT0);
+		}
+	if(ptr->interrupt==1)
+	{
+		switch(ptr->Edge)
+		{
+		case 0:
+			MCUCR &= ~(1<<ISC11)&(~(1<<ISC10));
+			break;
+		case 1:
+			MCUCR |= (1<<ISC10);
+			MCUCR &= ~(1<<ISC11);
+			break;
+		case 2:
+			MCUCR |= (1<<ISC11);
+			MCUCR &= ~(1<<ISC10);
+			break;
+		case 3:
+			MCUCR |= (1<<ISC10)|(1<<ISC11);
+			break;
+		}
+		GICR|=(1<<INT1);
+	}
+	if(ptr->interrupt==2)
+	{
+		switch(ptr->Edge)
+		{
+		case 2:
+			MCUCSR &= ~(1<<ISC2);
+			break;
+		case 3:
+			MCUCR |= (1<<ISC2);
+			break;
+
+		}
+	}
+}

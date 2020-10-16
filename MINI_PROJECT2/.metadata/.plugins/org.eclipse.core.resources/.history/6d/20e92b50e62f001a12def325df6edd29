@@ -1,0 +1,13 @@
+/*
+ * ExternalInterrupt.c
+ *
+ *  Created on: Jan 5, 2020
+ *      Author: micheal_onsy
+ */
+
+
+void ExternalInterrupt_VidInit()
+{
+	MCUCR=(1<<ISC11)|(ISC10)
+
+}

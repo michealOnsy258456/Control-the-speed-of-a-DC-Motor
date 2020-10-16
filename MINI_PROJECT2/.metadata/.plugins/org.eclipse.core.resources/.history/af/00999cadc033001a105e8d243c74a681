@@ -1,0 +1,49 @@
+/*
+ * MiniProject2.c
+ *
+ *  Created on: Jan 5, 2020
+ *  Author: Micheal Onsy
+ */
+
+#include "ADC.h"
+#include "LCD.h"
+#include "TIMER.h"
+#include "ExternalInterrupt.h"
+uint16 g_u16ADCValue=0;
+uint16 g_u16ExternalInterruptValue=0;
+
+void APP_ADCProcess(void)
+{
+	g_u16ADCValue=ADC_GetADCValue();
+}
+void APP_ExternalInterruptProcess(void)
+{
+	g_u16ExternalInterruptValue=EI_GetExternalInterruptValue();
+}
+int main(void)
+{
+	ADC_ConfigType ADC_Config={F_CPU_8,AREF,POLLING};
+	ADC_VidInit( &ADC_Config );
+	//ADC_setCallBack(APP_ADCProcess);
+	DDRB|=(1<<PB0)|(1<<PB1);
+	SET_BIT(PORTB,PB0);
+	CLEAR_BIT(PORTB,PB1);
+	LCD_VidInit();
+	ExternalInterrupt_VidInit();
+	PWM_VidInit();
+	//LCD_clearScreen();
+	LCD_VidWriteString("ADC Value = ");
+	while(1)
+	{
+		LCD_VidSetRowColumn(1,12);
+		ADC_u16ReadChannal(0);
+		if(ADC_Config.PollingOrInterrupt==0)
+		{
+			while(!(ADCSRA&(1<<ADIF)));
+			SET_BIT(ADCSRA,ADIF);
+			g_u16ADCValue=ADC_GetADCValue();
+		}
+		LCD_VidWriteNumber(g_u16ADCValue);
+		PWM_VidTakeNumber(g_u16ADCValue);
+	}
+}
